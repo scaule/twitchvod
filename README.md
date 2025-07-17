@@ -30,19 +30,60 @@ This tool demonstrates:
 
 ## Building for Research
 
+### Using Makefile (Recommended)
+```bash
+# Build both CLI and server versions
+make build
+
+# Build only CLI version
+make build-cli
+
+# Build only server version
+make build-server
+
+# Run tests
+make test
+```
+
+### Manual Building
 ```bash
 # Set your research Client ID
 export TWITCH_CLIENT_ID="your_research_client_id"
 
-# Build the research tool
-go build -o twitchvod main.go
+# Build CLI version
+go build -o twitchvod cmd/cli/main.go
+
+# Build server version
+go build -o twitchvod-server cmd/server/main.go
 ```
 
 ## Research Usage
 
+### CLI Version
 ```bash
 # Example research usage
 ./twitchvod https://www.twitch.tv/videos/1234567
+```
+
+### HTTP Server Version
+```bash
+# Set environment variables
+export TWITCH_CLIENT_ID="your_research_client_id"
+export SECRET="your_secret_key"
+
+# Start the server
+./twitchvod-server
+
+# Make a request
+curl "http://localhost:8080/extract?url=https://www.twitch.tv/videos/1234567&secret=your_secret_key"
+```
+
+Response format:
+```json
+{
+  "success": true,
+  "url": "https://fake-cdn.example.com/video/1234567/chunked/index-dvr.m3u8"
+}
 ```
 
 ## Research Output
